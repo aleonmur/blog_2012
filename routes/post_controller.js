@@ -76,7 +76,8 @@ exports.search=function(req,res,next){
               case 'html':
               case 'htm':
                   res.render('posts/search', {
-                    posts: posts
+                    posts: posts,
+                    visitas: count.getCount() + 1
                   });
                   break;
               case 'json':
