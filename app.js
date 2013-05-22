@@ -94,7 +94,7 @@ app.post('/users', userController.create);
 app.get('/users/:userid([0-9]+)/edit', userController.edit);
 app.put('/users/:userid([0-9]+)', userController.update);
 app.delete('/users/:userid([0-9]+)', userController.destroy);
-
+app.get('/posts/search:busqueda?', postController.search);
 //---------------------
 
 http.createServer(app).listen(app.get('port'), function(){

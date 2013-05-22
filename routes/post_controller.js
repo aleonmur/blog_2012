@@ -60,7 +60,46 @@ exports.index = function(req, res, next) {
             next(error);
         });
 };
+exports.search=function(req,res,next){
+   var format = req.params.format || 'html';
+    format = format.toLowerCase();
+    var string = req.query.busqueda;
+    console.log(string);
+    string= '%'+string+'%';
+    string= string.replace(' ', '%');
 
+    models.Post
+        .findAll({where: ["title like ? OR body like ?", string, string], order: "updatedAt DESC"})
+        .success(function(posts) {
+            switch (format) { 
+              case 'html':
+              case 'htm':
+                  res.render('posts/search', {
+                    posts: posts
+                  });
+                  break;
+              case 'json':
+                  res.send(posts);
+                  break;
+              case 'xml':
+                  res.send(posts_to_xml(posts));
+                  break;
+              case 'txt':
+                  res.send(posts.map(function(post) {
+                      return post.title+' ('+post.body+')';
+                  }).join('\n'));
+                  break;
+              default:
+                  console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
+                  res.send(406);
+            }
+        })
+        .error(function(error) {
+            console.log("Error: No puedo listar los posts.");
+            res.redirect('/');
+        });
+
+}
 function posts_to_xml(posts) {
 
     var builder = require('xmlbuilder');
