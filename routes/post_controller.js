@@ -1,6 +1,6 @@
 
 var models = require('../models/models.js');
-
+var count = require('../modules/count');
 
 /*
 *  Auto-loading con app.param
@@ -37,7 +37,8 @@ exports.index = function(req, res, next) {
               case 'html':
               case 'htm':
                   res.render('posts/index', {
-                    posts: posts
+                    posts: posts,
+                    visitas: count.getCount() + 1
                   });
                   break;
               case 'json':
@@ -137,7 +138,7 @@ exports.show = function(req, res, next) {
     switch (format) { 
       case 'html':
       case 'htm':
-          res.render('posts/show', { post: req.post });
+          res.render('posts/show', { post: req.post});
           break;
       case 'json':
           res.send(req.post);

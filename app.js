@@ -1,5 +1,10 @@
 
 /**
+Aplicacion desplegada en Heroku: http://blogguillealvaro.herokuapp.com/
+*/
+
+
+/**
  * Module dependencies.
  */
 
@@ -7,9 +12,11 @@ var express = require('express')
   , routes = require('./routes')
   , http = require('http')
   , path = require('path')
+  , about = require('./routes/about')
   , partials = require('express-partials')
   , postController = require('./routes/post_controller.js')
-  , userController = require('./routes/user_controller.js');
+  , userController = require('./routes/user_controller.js')
+  , count = require('./modules/count');
 
 var util = require('util');
 
@@ -34,7 +41,7 @@ app.configure(function(){
      res.locals.flash = function() { return req.flash() };
      next();
   });
-
+  app.use(count.count_mw());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -70,7 +77,7 @@ app.locals.escapeText =  function(text) {
 // -- Routes
 
 app.get('/', routes.index);
-
+app.get('/about', about.about);
 //---------------------
 
 app.param('postid', postController.load);

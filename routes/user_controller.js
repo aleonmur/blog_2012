@@ -1,6 +1,6 @@
 
 var models = require('../models/models.js');
-
+var count = require('../modules/count');
 
 /*
 *  Auto-loading con app.param
@@ -34,7 +34,8 @@ exports.index = function(req, res, next) {
         .findAll({order: 'name'})
         .success(function(users) {
             res.render('users/index', {
-                users: users
+                users: users,
+                visitas: count.getCount() + 1
             });
         })
         .error(function(error) {
