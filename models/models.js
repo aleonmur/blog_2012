@@ -24,4 +24,3 @@ exports.Post = sequelize.import(path.join(__dirname,'post'));
 exports.User = sequelize.import(path.join(__dirname,'user'));
 
 sequelize.sync();
-
