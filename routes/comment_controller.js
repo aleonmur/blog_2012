@@ -103,7 +103,7 @@ exports.new = function(req, res, next) {
     
     res.render('comments/new', {comment: comment,
         post: req.post
-    });
+        });
 };
 
 // POST /posts/33/comments

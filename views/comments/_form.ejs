@@ -1,8 +1,8 @@
   <div class='<%- locals.validate_errors && 
-                  validate_errors.body ? "invalid_field" : "field" %>'>
+                  validate_errors.bodyC ? "invalid_field" : "field" %>'>
 
     <label for="comment_body">Contenido</label><br />
-    <textarea id="comment_body" name="comment[body]" rows="10" cols="80"><%= comment.body %></textarea>
+    <textarea id="comment_body" name="comment[bodyC]" rows="10" cols="80"><%= comment.bodyC %></textarea>
   </div>
 
   <div class="actions">

@@ -8,7 +8,7 @@ var count = require('../modules/count');
 exports.load = function(req, res, next, id) {
 
    models.Post
-        .find({where: {id: Number(id)}, include: [models.Favourite]})
+        .find({where: {id: Number(id)}, include: [models.Favourite, models.Comment]})
         .success(function(post) {
             if (post) {
                 req.post = post;
@@ -48,7 +48,7 @@ exports.index = function(req, res, next) {
 
     models.Post
         .findAll({order: 'updatedAt DESC',
-	                include: [ { model: models.User, as: 'Author'}], include: [models.Favourite, models.Comment] 
+	                include: [ { model: models.User, as: 'Author'}, models.Favourite, models.Comment] 
 	      })
         .success(function(posts) {
 
@@ -188,7 +188,7 @@ exports.show = function(req, res, next) {
                             case 'html':
                             case 'htm':
                                 var new_comment = models.Comment.build({
-                                    body: 'Introduzca el texto del comentario'
+                                    bodyC: 'Introduzca el texto del comentario'
                                 });
                                 res.render('posts/show', {
                                     post: req.post,
@@ -305,11 +305,12 @@ exports.edit = function(req, res, next) {
 
 // PUT /posts/33
 exports.update = function(req, res, next) {
-
     req.post.title = req.body.post.title;
     req.post.body = req.body.post.body;
-                
-    var validate_errors = req.post.validate();
+
+    var validate_errors = req.body.post.validate();
+                console.log("DESPUES");
+
     if (validate_errors) {
         console.log("Errores de validación:", validate_errors);
 

@@ -11,7 +11,7 @@
 
 
 
-  <em> <%= posts[i].author && posts[i].author.name || "Sin autor" %> </em>
+  <em> <%= (posts[i].author && posts[i].author.name) || "Sin autor" %> </em>
 </header>
 
 <% if (session.user) { %>
