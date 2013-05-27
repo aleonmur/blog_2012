@@ -75,7 +75,8 @@ exports.create = function(req, res) {
         // IMPORTANTE: creo req.session.user.
         // Solo guardo algunos campos del usuario en la sesion.
         // Esto es lo que uso para saber si he hecho login o no.
-        req.session.user = {id:user.id, login:user.login, name:user.name};
+        var date = new Date();
+        req.session.user = {id:user.id, login:user.login, name:user.name, time:date.getTime(), favourites:user.favourites};
 
         // Vuelvo al url indicado en redir
         res.redirect(redir);
@@ -93,5 +94,3 @@ exports.destroy = function(req, res) {
     req.flash('success', 'Logout.');
     res.redirect("/login");     
 };
-
-

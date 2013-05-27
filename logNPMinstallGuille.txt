@@ -1,0 +1,60 @@
+
+> sqlite3@2.1.7 install /media/share/Dropbox/swcm (1)/node_modules/sqlite3
+> node-gyp rebuild
+
+make: se ingresa al directorio «/media/share/Dropbox/swcm (1)/node_modules/sqlite3/build»
+  CC(target) Release/obj.target/sqlite3/deps/sqlite3/sqlite3.o
+
+> pg@0.6.18 install /media/share/Dropbox/swcm (1)/node_modules/pg
+> node-waf configure build || (exit 0)
+
+  AR(target) Release/obj.target/deps/sqlite3/sqlite3.node
+  CXX(target) Release/obj.target/node_sqlite3/src/database.o
+  CXX(target) Release/obj.target/node_sqlite3/src/node_sqlite3.o
+  CXX(target) Release/obj.target/node_sqlite3/src/statement.o
+  SOLINK_MODULE(target) Release/obj.target/node_sqlite3.node
+  SOLINK_MODULE(target) Release/obj.target/node_sqlite3.node: Finished
+  COPY Release/node_sqlite3.node
+make: se sale del directorio «/media/share/Dropbox/swcm (1)/node_modules/sqlite3/build»
+xmlbuilder@0.4.2 node_modules/xmlbuilder
+
+connect-flash@0.1.1 node_modules/connect-flash
+
+express-partials@0.0.6 node_modules/express-partials
+
+ejs@0.8.2 node_modules/ejs
+
+cloudinary@1.0.2 node_modules/cloudinary
+├── temp@0.4.0
+├── underscore@1.4.4
+└── coffee-script@1.4.0
+
+pg@0.6.18 node_modules/pg
+└── generic-pool@1.0.9
+
+express@3.2.4 node_modules/express
+├── fresh@0.1.0
+├── methods@0.0.1
+├── range-parser@0.0.4
+├── cookie-signature@1.0.1
+├── buffer-crc32@0.2.1
+├── cookie@0.0.5
+├── debug@0.7.2
+├── commander@0.6.1
+├── mkdirp@0.3.4
+├── send@0.1.0 (mime@1.2.6)
+└── connect@2.7.9 (pause@0.0.1, qs@0.6.4, bytes@0.2.0, formidable@1.0.13)
+
+sequelize@1.7.0-alpha2 node_modules/sequelize
+├── toposort-class@0.1.4
+├── promise@3.0.0
+├── dottie@0.0.6-1
+├── commander@0.6.1
+├── generic-pool@2.0.3
+├── lingo@0.0.5
+├── validator@1.1.1
+├── underscore.string@2.3.1
+├── moment@1.7.2
+└── lodash@1.2.1
+
+sqlite3@2.1.7 node_modules/sqlite3

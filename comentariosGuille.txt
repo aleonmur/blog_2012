@@ -1,0 +1,61 @@
+Vale, voy a ir poniendo aquí las cosas 'raras' que he observado. Si tenemos ganas y eiempo podemos plantearnos afrontarlas:
+
+- Al registrarte no te logea automáticamente
+- Al buscar en la caja de busqueda un texto, ej: 'asefasgasgaga', del que no hay ocurrencias nos devulve una lista de posts vacía, pero si
+  metes algún caracter especial, ej: 'asgfasdgag'adgagag', te manda a home.(?)
+
+
+pongo esto aqui, q sino me da error...ya lo meteré en cuanto me entere mejor:
+<%#    La URL de la imagen tendria que ser algo asi, pero no tengo claro como hacer un put desde aqui...
+  ./images/<%=post.getFavourite()? yellowStar.png : emptyStar.png %> %>
+
+
+-He tomado la decisión de diseño de que, si no estás logeado, no te aparezca lo de los favoritos. Se puede cambiar. Qué piensas?
+
+
+Voy a sacar el código de las vistas(otra vez) que no consigo comentarlo
+<!--    <% if (session.user) { %>
+      <% var favorito=false; %>
+      <% var favourites=posts[i].getFavourites();%>
+      <% for (var j in favourites) { %> 
+        <% if (session.user.) { %>
+            <% favorito=true;}} %>
+        <% if (favorito) { %>
+          <form method='post' action='/users/<%=session.user.id%>/favourites/<%=posts[i].id%>'>
+            <input type='hidden' name='_method' value='delete'>
+            <button type="submit">
+              <img src="/images/yellowStar.png" 
+              width="72" height="46" border="0" />
+            </button>
+          </form>
+        
+
+        <% } else{ %>
+
+
+          <form method='post' action='/users/<%=session.user.id%>/favourites/<%=posts[i].id%>'>
+            <input type='hidden' name='_method' value='put'>
+            <button type="submit">
+              <img src="/images/emptyStar.png"
+              width="72" height="46" border="0" />
+            </button>
+          </form>
+
+      <% } %>
+    <% } %> -->
+
+    Y esta era la implementacion aprcial que yo tenía(está en el zip):
+
+        <% if (session.user) { %>
+    <form method='post' action='/users/<%=session.user.id%>/favourites/<%=posts[i].id%>'>
+      <input type='hidden' name='_method' value='put'>
+      <button type="submit">
+        <img src="/images/<%=(0==1)? "yellowStar.png" : "emptyStar.png" %>"
+        width="72" height="46" border="0" />
+      </button>
+    </form>
+    <% } %>
+
+
+
+

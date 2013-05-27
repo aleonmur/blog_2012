@@ -3,32 +3,73 @@
 </header>
 
 <% for (var i in posts) { %>
-  <article>
-     <header>
-        <h3>
-          <a href='/posts/<%= posts[i].id %>' class='titlelink'> <%= posts[i].title %> </a>
-        </h3>
-        <em> <%= posts[i].author && posts[i].author.name || "Sin autor" %> </em>
-     </header>
-     
-     <p>
-        <%= posts[i].body.slice(0,300) %> ... 
-     </p>
+<article>
+ <header>
+  <h3>
+    <a href='/posts/<%= posts[i].id %>' class='titlelink'> <%= posts[i].title %> </a>
+  </h3>
 
-     <footer>
 
-      <% if (session.user && session.user.id == posts[i].authorId) {%>
 
-        <form method='post' action='/posts/<%= posts[i].id %>'>
-          <input type='hidden' name='_method' value='delete'>
-          <a href="/posts/<%= posts[i].id %>/edit"> Editar </a> 
-          <a href="" onclick="submit();return false"> Borrar </a>  
-        </form>
+  <em> <%= posts[i].author && posts[i].author.name || "Sin autor" %> </em>
+</header>
+
+<% if (session.user) { %>
+<% var esFavorito= false; %> 
+<%for (var j in posts[i].favourites){ %>
+    
+    
+    <%if(posts[i].favourites[j].userId==session.user.id){
+      esFavorito = true;
+    }
+
+} %>
+  <form method='post' action='/users/<%=session.user.id%>/favourites/<%=posts[i].id%>'>
+    <% if(esFavorito){ %>
+        <input type='hidden' name='_method' value='delete'>
+        <button type="submit">
+        <img src="/images/yellowStar.png"
+
+
+      <% }else{ %>
+
+        <input type='hidden' name='_method' value='put'>
+
+        <button type="submit">
+        <img src="/images/emptyStar.png" 
+
 
       <% } %>
+        width="72" height="46" border="0">
+      </button>
 
-     </footer>
-  </article>
+
+    <%  %>
+
+  </form>
+<% } %>
+
+
+  <p>
+    <%= posts[i].body.slice(0,300) %> ... 
+  </p>
+
+  <p> Comentarios: <%=posts[i].comments.length%> </p>
+
+  <footer>
+
+    <% if (session.user && session.user.id == posts[i].authorId) {%>
+
+    <form method='post' action='/posts/<%= posts[i].id %>'>
+      <input type='hidden' name='_method' value='delete'>
+      <a href="/posts/<%= posts[i].id %>/edit"> Editar </a> 
+      <a href="" onclick="submit();return false"> Borrar </a>  
+    </form>
+
+    <% } %>
+
+  </footer>
+</article>
 
 <%  }; %>
 <footer>

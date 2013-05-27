@@ -1,0 +1,46 @@
+Se pide modificar los ficheros necesarios para que los usuarios pueden indicar cuales son sus posts preferidos, y poder verlos de forma separada en una página de favoritos. Esta entrega deberá desplegarse en heroku.
+
+
+3.1 - El Layout  <--- Unas posibles estrellas estan en public/images, y una posible url a usar esta comentada en views/post/show.ejs  - Alvaro 
+
+El layout de la aplicación debe mostrar en la barra de navegación un nuevo botón para mostrar los post favoritos del usuario logeado.
+
+Para pasar un post de favorito a no_favorito, o viceversa, debe añadirse una estrellita, o imagen equivalente, a cada post, tanto en la vista show.ejs como en index.ejs, como en la nueva vista donde se listan los favoritos de un usuario. La estrellita debe ser clicable y debe estar en gris si es no_favorito y en amarillo si es favorito. Al hacer clic en ella debe cambiar de estado, de favorito a no_favorito o viceversa.
+
+Tanto el botón de la barra de navegación, como las estrellitas de favorito solo apareceran cuando el usuario este logeado. Se recuerda que cada usuario puede tener favoritos diferentes.
+
+3.2 - El API REST
+
+Se recomienda utilizar esta API REST para manejar los favoritos, aunque no es obligatoria. Estas primitivas necesitan que el usuario este logeado, y si se invocan por un usuario no logeado se invocará el login_express.
+
+    Los usuarios marcarán como favorito con la siguiente petición HTTP:
+        PUT  /users/:userid/favourites/:postid
+
+    Para la condición de favorito, se usará la siguiente petición HTTP:
+        DELETE  /users/:userid/favourites/:postid
+
+    Para listar los posts favoritos de un usuario, es decir, aquellos que el usuario ha marcado como favoritos, se usará la siguiente petición HTTP: 
+        GET /users/:userid/favourites   <-- Añadido el tratamiento, no la generacion - Alvaro
+
+ 
+3.3 - ORM y Bases de Datos  <------ Hecho(en principio) - Alvaro----Mirando favourite.js y models.js no lo he visto(?)Lo he hecho yo(otra vez?)
+
+Hay que definir una nueva tabla de favoritos en el fichero models/favourite.js y ademas hay que crear una nueva clase, llamada Favourite, con dicha tabla en models/models.js.
+
+Los campos de los objetos de esta clase deben ser:
+
+    id
+        clave primaria.
+    createdAt
+        fecha de creación.
+    updatedAt
+        fecha de actualización.
+    userId
+        clave externa que identifica al dueño de la valoración.
+    postId
+        clave externa que identifica al post valorado.
+
+La tabla de favoritos tiene ademas una relación 1-N de usuarios a favoritos (un usuario debe poder tener muchos posts favoritos) y 1-N entre posts a favoritos (un post puede tener muchos usuarios que lo marquen como favorito).
+3.4 - Controlador de Favoritos    <------ Añadida funcion que lista todos los favoritos - Alvaro
+
+Cree un nuevo módulo controlador (routes/favourites_controller.js) que contenga y exporte las funciones tipicas relacionadas con el tratamiento de los favoritos. 

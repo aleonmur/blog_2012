@@ -15,7 +15,7 @@ module.exports = function(sequelize, DataTypes) {
                 notEmpty: { msg: "El campo postId no puede estar vacío" }
             }
         },
-        body: {
+        bodyC: {
             type: DataTypes.TEXT,
             validate: {
                 notEmpty: { msg: "El cuerpo del comentario no puede estar vacío" }

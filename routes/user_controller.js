@@ -1,6 +1,8 @@
 
 var models = require('../models/models.js');
 var crypto = require('crypto');
+var count = require('../modules/count');
+
 
 /*
 *  Auto-loading con app.param
@@ -8,7 +10,7 @@ var crypto = require('crypto');
 exports.load = function(req, res, next, id) {
 
    models.User
-        .find({where: {id: Number(id)}})
+        .find({where: {id: Number(id)}, include: [models.Favourite] })
         .success(function(user) {
             if (user) {
                 req.user = user;
@@ -45,10 +47,11 @@ exports.loggedUserIsUser = function(req, res, next) {
 exports.index = function(req, res, next) {
 
     models.User
-        .findAll({order: 'name'})
+        .findAll({order: 'name', include: [models.Favourite] })
         .success(function(users) {
             res.render('users/index', {
-                users: users
+                users: users,
+                visitas: count.getCount() + 1
             });
         })
         .error(function(error) {
@@ -86,7 +89,7 @@ exports.create = function(req, res, next) {
         });
     
     // El login debe ser unico:
-    models.User.find({where: {login: req.body.user.login}})
+    models.User.find({where: {login: req.body.user.login}, include: [models.Favourite] })
         .success(function(existing_user) {
             if (existing_user) {
                 console.log("Error: El usuario \""+ req.body.user.login +"\" ya existe: "+existing_user.values);
@@ -228,7 +231,7 @@ function encriptarPassword(password, salt) {
  */
 exports.autenticar = function(login, password, callback) {
     
-    models.User.find({where: {login: login}})
+    models.User.find({where: {login: login}, include: [models.Favourite] })
         .success(function(user) {
             if (user) {
                 console.log('Encontrado el usuario.');

@@ -20,10 +20,13 @@ var sequelize = new Sequelize(process.env.DATABASE_NAME,
 //    - User desde user.js.
 //    - Comment desde comment.js.
 //    - Attachment desde attachment.js.
+//    - Favourite desde favourite.js.
+
 var Post = sequelize.import(path.join(__dirname,'post'));
 var User = sequelize.import(path.join(__dirname,'user'));
 var Comment = sequelize.import(path.join(__dirname,'comment'));
 var Attachment = sequelize.import(path.join(__dirname,'attachment'));
+var Favourite = sequelize.import(path.join(__dirname,'favourite'));
 
 // Relaciones
 
@@ -41,6 +44,9 @@ Post.hasMany(Comment, {foreignKey: 'postId'});
 
 Post.hasMany(Attachment, {foreignKey: 'postId'});
 
+User.hasMany(Favourite, {foreignKey: 'userId'});
+Post.hasMany(Favourite, {foreignKey: 'postId'});
+
 // La llamada Post.belongsTo(User);
 //  - crea en el modelo de Post un atributo llamado UserId,
 //  - y en el prototipo de Post se crean los metodos getUser y setUser.
@@ -56,8 +62,14 @@ Comment.belongsTo(Post, {foreignKey: 'postId'});
 
 Attachment.belongsTo(Post, {foreignKey: 'postId'});
 
+Favourite.belongsTo(User, {foreignKey: 'userId'});
+Favourite.belongsTo(Post, {foreignKey: 'postId'});
+
 // Exportar los modelos:
 exports.Post = Post;
 exports.User = User;
 exports.Comment = Comment;
 exports.Attachment = Attachment;
+exports.Favourite = Favourite;
+
+sequelize.sync();

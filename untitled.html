@@ -1,0 +1,9 @@
+    <% if (session.user) { %>
+    <form method='post' action='/users/<%=session.user.id%>/favourites/<%=posts[i].id%>'>
+      <input type='hidden' name='_method' value='put'>
+      <button type="submit">
+        <img src="/images/<%=(0==1)? "yellowStar.png" : "emptyStar.png" %>"
+        width="72" height="46" border="0" />
+      </button>
+    </form>
+    <% } %>

@@ -1,6 +1,6 @@
 
 var models = require('../models/models.js');
-
+var count = require('../modules/count');
 
 /*
 *  Auto-loading con app.param
@@ -8,7 +8,7 @@ var models = require('../models/models.js');
 exports.load = function(req, res, next, id) {
 
    models.Post
-        .find({where: {id: Number(id)}})
+        .find({where: {id: Number(id)}, include: [models.Favourite]})
         .success(function(post) {
             if (post) {
                 req.post = post;
@@ -22,7 +22,6 @@ exports.load = function(req, res, next, id) {
             next(error);
         });
 };
-
 
 
 /*
@@ -49,17 +48,17 @@ exports.index = function(req, res, next) {
 
     models.Post
         .findAll({order: 'updatedAt DESC',
-	                include: [ { model: models.User, as: 'Author' } ]
+	                include: [ { model: models.User, as: 'Author'}], include: [models.Favourite, models.Comment] 
 	      })
         .success(function(posts) {
 
-          console.log(posts);
-          
+          console.log("\nPOSTS:\n"+JSON.stringify(posts)+"\n-----------------\n");
             switch (format) { 
               case 'html':
               case 'htm':
                   res.render('posts/index', {
-                    posts: posts
+                    posts: posts,
+                    visitas: count.getCount() + 1
                   });
                   break;
               case 'json':
@@ -82,6 +81,54 @@ exports.index = function(req, res, next) {
             next(error);
         });
 };
+
+exports.search=function(req,res,next){
+   var format = req.params.format || 'html';
+    format = format.toLowerCase();
+    var string = req.query.busqueda;
+    console.log(string);
+    string= '%'+string+'%';
+    string= string.replace(' ', '%');
+
+    models.Post
+        .findAll({where: ["title like ? OR body like ?", string, string], order: 'updatedAt DESC',
+                  include: [ { model: models.User, as: 'Author'}, models.Favourite, models.Comment]
+                }).success(function(posts) {
+
+
+
+
+            switch (format) { 
+              case 'html':
+              case 'htm':
+                  res.render('posts/search', {
+                    posts: posts,
+                    visitas: count.getCount() + 1
+                  });
+                  break;
+              case 'json':
+                  res.send(posts);
+                  break;
+              case 'xml':
+                  res.send(posts_to_xml(posts));
+                  break;
+              case 'txt':
+                  res.send(posts.map(function(post) {
+                      return post.title+' ('+post.body+')';
+                  }).join('\n'));
+                  break;
+              default:
+                  console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
+                  res.send(406);
+            }
+        })
+        .error(function(error) {
+            console.log("Error. No puedo listar los posts:"+JSON.stringify(error));
+            res.redirect('/');
+        });
+
+}
+
 
 function posts_to_xml(posts) {
 
@@ -253,7 +300,6 @@ exports.create = function(req, res, next) {
 
 // GET /posts/33/edit
 exports.edit = function(req, res, next) {
-
     res.render('posts/edit', {post: req.post});
 };
 
